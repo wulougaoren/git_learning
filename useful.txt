@@ -1,0 +1,109 @@
+c_yangyuling  ylLOzj1222
+
+c_wujiawei-003
+Pql*1013
+!Zkk0705
+
+WEB20190518
+SXAPP20190518
+FILE20190518
+
+bxxdev.cpic.com.cn/file-app/file/test.do
+c_guoliuqiang @Zss0603
+
+cpicpush
+Ydxxts593781
+
+10.191.16.169
+10.191.48.84
+
+
+
+未跟踪的文件git无法检测到，比如新增的文件，将其add之前不受git操作影响
+git add -A
+git add xxx.txt
+git add [file1] [file2] ……
+git rm file	删除文件，和add作用类似的相反命令
+git commit -m "description"
+git commit -am "description"	直接commit，省去add的步骤
+git status
+git diff [head] [--] ["xxx.txt"]
+git diff HEAD HEAD^	比较最近两次提交的差异
+git diff branch1/commit1 branch2/commit2 -- xxx.txt	比较不同版本之间的文件差异
+HEAD^：表示HEAD的父亲，（HEAD^^表示HEAD父亲的父亲，相当于HEAD~2，以此类推）
+git log [--graph] [-n5] [--pretty=oneline]	[展示分支合并图][显示最近的五次提交，要显示几个就是-n几][美观展示]
+git reflog
+git reset --hard [HEAD^]		已commit，回退到commit之前的版本
+git reset [--hard] commitId	
+git checkout -- xxx.txt		放弃工作区某个文件的修改（add之前），和最近的一次操作保持一致（有可能是head，也有可能是暂存区）
+git checkout .			放弃工作区所有修改（add之前），和最近的一次操作保持一致（有可能是head，也有可能是暂存区）
+git reset HEAD [xxx.txt]	已add未commit，从暂存区回退到工作区（不加指定文件则暂存区中的修改全部回退到工作区）
+
+git branch -a	列出所有分支，当前分支前面会标一个*号
+git branch -r	列出远程分支
+git checkout [-b] branchName	[创建并]切换到某分支
+git branch	创建新分支，不切换到新分支
+git branch -d branchName	删除某分支。删之前需要切换到另一个分支上，无法删除当前分支（-D为强行删除该分支，无论该分支有没有被合并）
+git merge anotherBranch		把另一个分支上的提交合并到当前分支上（快速合并，fast forward，不生成新的提交，看不出来做过合并）
+git merge --no-ff -m "description" dev	把另一个分支上的提交合并到当前分支上（生成新的提交，能看出来做过合并）
+
+git remote [-v]	查看远程仓库信息
+git remote add origin git@github.com:michaelliao/learngit.git	关联远程仓库
+git push -u origin master	如果远程仓库是空的，第一次推送master时可以加上-u参数，这样git不但会把本地的master分支内容推送到远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或拉取时就可以简化命令，直接git push origin master，而且可以直接git pull从关联分支获取最新代码；如果远程仓库不是空的，需要先拉下来git pull origin master [--allow-unrelated-histories]
+
+git stash	能够将所有未提交的修改（工作区和暂存区）保存至堆栈中，用于后续恢复当前工作目录
+git stash pop	将当前stash中的内容弹出，并应用到当前分支对应的工作目录上。（该命令将堆栈中最近保存的内容删除（栈是先进后出））
+
+git clone git@github.com:michaelliao/gitskills.git
+Git支持多种协议，包括https，但通过ssh支持的原生git协议速度最快
+
+git checkout -b branch-name origin/branch-name	在本地创建和远程分支对应的分支（基于某个远程分支创建新的本地分支）
+git checkout -b branch-name commitId
+git push origin branch-name	从本地推送分支
+git branch --set-upstream-to=origin/branchName localBranchName	建立本地分支和远程分支的关联，后续从该分支获取更新，可以直接git pull
+
+git checkout commitId		分离头指针（detached HEAD，HEAD不指向任何分支而是指向某个提交，该状态下提交变更会被git忽视，可能会丢失变更）
+git branch xxx commitId		将分离头指针状态下的提交内容保存到新建分支
+
+git config --list --global	查看当前用户的仓库配置列表（global参数为对当前用户所有仓库有效，不带该参数会把local（只对某个仓库有效）、global、system（对系统所有登陆的用户有效）三个级别的所有配置罗列出来）
+git config --global user.name 'xxx'
+git config --global user.email 'xxx' 
+
+gitk [--all]	图形化界面显示git提交历史
+
+git commit --amend	进入文本编辑器，修改最近一次提交的描述信息
+
+
+指定不需要git管理的文件：
+在工作目录下创建.gitignore文件
+指定不需要管理的文件，比如忽略工作目录根目录下的xxx.txt，需要在文件内容的最后一行追加xxx.txt
+指定不需要管理的文件夹，比如忽略工作目录根目录下的settings文件夹，需要在文件内容的最后一行追加settings/
+.class	忽略所有以.class结尾的文件
+从未被跟踪的文件可以直接生效
+已被git管理的文件无法生效，需要先清空缓存（即把所有文件从git管理中移除）：  git rm -r --cached .  ，再重新add…commit…
+
+
+ssh协议：
+登陆github，在首页右上角倒三角图标中点击help，模糊查找SSH，选择Adding a new SSH key to your GitHub account，检查SSH key是否存在，Checked for existing SSH keys，如果不存在，生成SSH key，Generated a new SSH key and added it to the ssh-agent。
+第一步，打开git bash
+第二步，输入命令ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+第三步，回车，输入密码（可为空），确认密码
+第四步，复制C:\Users\Administrator\.ssh下的id_rsa.pub文件中的内容
+第五步，在首页右上角倒三角图标中点击your profile，找到SSH and GPG keys，点击New SSH key，粘贴id_rsa.pub文件中的内容
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
